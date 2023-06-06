@@ -4,17 +4,17 @@ namespace BolCom;
 
 class Request
 {
-    private $apiAccessKeyId;
+    private $apiAccessToken;
     private $apiFormat;
     private $apiDebugMode;
     private $sessionId;
     private $httpResponseCode;
     private $httpFullHeader;
 
-    public function __construct($accessKeyId, $responseFormat, $debugMode)
+    public function __construct($accessToken, $responseFormat, $debugMode)
     {
         try {
-            $this->apiAccessKeyId = $accessKeyId;
+            $this->apiAccessToken = $accessToken;
             $this->apiFormat = $responseFormat;
             $this->apiDebugMode = $debugMode;
         } catch (Exception $e) {
@@ -24,12 +24,8 @@ class Request
 
     public function fetch($httpMethod, $url, $parameters = '', $content = '')
     {
-
         $parameters .= ($parameters == '' ? '?' : '&');
         $parameters .= 'format=' . $this->apiFormat;
-        $parameters .= '&apikey=' . $this->apiAccessKeyId;
-
-        $today = gmdate('D, d F Y H:i:s \G\M\T');
 
         switch ($httpMethod) {
             default:
@@ -46,6 +42,7 @@ class Request
         $headers = $httpMethod . " " . $url . $parameters . " HTTP/1.0\r\n";
         $headers .= "Content-type: " . $contentType . "\r\n";
         $headers .= "Host: api.bol.com\r\n";
+        $headers .= "Authorization: Bearer " . $this->apiAccessToken . "\r\n";
         $headers .= "Content-length: " . strlen($content) . "\r\n";
         $headers .= "Connection: close\r\n";
         if (!is_null($this->sessionId)) {
