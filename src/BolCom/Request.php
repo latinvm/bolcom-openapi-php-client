@@ -42,6 +42,7 @@ class Request
         $headers = $httpMethod . " " . $url . $parameters . " HTTP/1.0\r\n";
         $headers .= "Content-type: " . $contentType . "\r\n";
         $headers .= "Host: api.bol.com\r\n";
+        $headers .= "Accept-Language: nl\r\n";
         $headers .= "Authorization: Bearer " . $this->apiAccessToken . "\r\n";
         $headers .= "Content-length: " . strlen($content) . "\r\n";
         $headers .= "Connection: close\r\n";
