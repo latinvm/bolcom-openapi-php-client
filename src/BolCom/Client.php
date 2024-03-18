@@ -77,8 +77,6 @@ class Client
         
         // hardcode to NL for now
         $queryParams .= '&country-code=NL';
-        
-        print($queryParams);
 
         $httpResponse = $this->requestHelper->fetch('GET', '/marketing/catalog/v1/products/search', $queryParams);
 
